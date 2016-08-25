@@ -1,0 +1,21 @@
+---
+- name: restart sentry
+  service: name=sentry state=restarted
+
+- name: rebuild sentry
+  command: /usr/bin/docker-compose build chdir={{ sentry_home }}/build  
+  notify: initialise sentry
+
+- name: initialise sentry
+  command: /usr/bin/docker-compose run --rm web upgrade --noinput chdir={{ sentry_home }}/build
+  notify: 
+    - restart sentry
+    - setup superusers
+
+- name: reload systemd units
+  command: systemctl daemon-reload
+  notify: restart sentry
+
+- name: setup superusers
+  shell: /usr/bin/docker-compose run --rm web createuser --email={{ item.email }} --password={{ item.password }} --no-input --superuser || true chdir="{{ sentry_home }}/build"
+  with_items: "{{ sentry_admins }}"
