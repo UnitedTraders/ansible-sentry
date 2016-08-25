@@ -11,13 +11,13 @@ Any host with docker, docker-compose and systemd should be work.
 Role Variables
 --------------
 
-`sentry_secret_key` - **required**. Secret hash for Sentry, must be at least 32 characters long.
-`sentry_home` - default `/opt/sentry`. Directory for Sentry data and docker-compose files.
-`sentry_user` - default 'sentry'. Owner of `sentry_home`.
-`sentry_db_user` - default 'sentry'. PostgreSQL user for Sentry database.
-`sentry_db_password` - default 'sentry'. PostgreSQL pasword for Sentry database user.
-`sentry_web_port` - default '9000'. HTTP port for mapping Sentry web container.
-`sentry_admins` - list of Sentry superadmins. Example:
+* `sentry_secret_key` - **required**. Secret hash for Sentry, must be at least 32 characters long.
+* `sentry_home` - default `/opt/sentry`. Directory for Sentry data and docker-compose files.
+* `sentry_user` - default 'sentry'. Owner of `sentry_home`.
+* `sentry_db_user` - default 'sentry'. PostgreSQL user for Sentry database.
+* `sentry_db_password` - default 'sentry'. PostgreSQL pasword for Sentry database user.
+* `sentry_web_port` - default '9000'. HTTP port for mapping Sentry web container.
+* `sentry_admins` - list of Sentry superadmins. Example:
 ```
 sentry_admins:
   - email: "admin@{{ inventory_hostname }}"
