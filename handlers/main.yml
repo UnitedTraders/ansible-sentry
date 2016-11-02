@@ -3,12 +3,12 @@
   service: name=sentry state=restarted
 
 - name: rebuild sentry
-  command: /usr/bin/docker-compose build chdir={{ sentry_home }}/build  
+  command: /usr/bin/docker-compose build chdir={{ sentry_home }}/build
   notify: initialise sentry
 
 - name: initialise sentry
   command: /usr/bin/docker-compose run --rm web upgrade --noinput chdir={{ sentry_home }}/build
-  notify: 
+  notify:
     - restart sentry
     - setup superusers
 
