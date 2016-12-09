@@ -20,6 +20,7 @@ services:
       SENTRY_DB_USER: {{ sentry_db_user }}
       SENTRY_DB_PASSWORD: {{ sentry_db_password }}
       SENTRY_SINGLE_ORGANIZATION: 0
+      SENTRY_SERVER_EMAIL: {{ sentry_server_email }}
 
     volumes:
       - {{ sentry_home }}/data/sentry:/var/lib/sentry/files
