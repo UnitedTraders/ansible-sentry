@@ -5,6 +5,7 @@ sentry_user: 'sentry'
 sentry_db_user: 'sentry'
 sentry_db_password: 'sentry'
 sentry_web_port: '9000'
+sentry_mailhost: 'localhost'
 sentry_admins:
   - email: "admin@{{ inventory_hostname }}"
     password: "admin"

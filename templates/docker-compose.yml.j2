@@ -27,6 +27,7 @@ services:
   smtp:
     image: tianon/exim4
     restart: always
+    hostname: {{ sentry_mailhost }}
 
   memcached:
     image: memcached:1.4
