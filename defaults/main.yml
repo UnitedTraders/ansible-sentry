@@ -10,3 +10,4 @@ sentry_admins:
   - email: "admin@{{ inventory_hostname }}"
     password: "admin"
 sentry_server_email: 'sentry@localhost'
+sentry_url_prefix: http://sentry.example.com

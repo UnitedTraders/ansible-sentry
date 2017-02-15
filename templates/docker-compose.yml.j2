@@ -21,6 +21,7 @@ services:
       SENTRY_DB_PASSWORD: {{ sentry_db_password }}
       SENTRY_SINGLE_ORGANIZATION: 0
       SENTRY_SERVER_EMAIL: {{ sentry_server_email }}
+      SENTRY_URL_PREFIX: {{ sentry_url_prefix }}
 
     volumes:
       - {{ sentry_home }}/data/sentry:/var/lib/sentry/files
