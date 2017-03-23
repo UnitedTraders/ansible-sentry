@@ -22,6 +22,13 @@ services:
       SENTRY_SINGLE_ORGANIZATION: 0
       SENTRY_SERVER_EMAIL: {{ sentry_server_email }}
       SENTRY_URL_PREFIX: {{ sentry_url_prefix }}
+      SENTRY_LDAP_AUTH: {{ sentry_ldap_auth }}
+      SENTRY_LDAP_SERVER_URI: {{ sentry_ldap_server_uri }}
+      SENTRY_LDAP_BIND_DN: {{ sentry_ldap_bind_dn }}
+      SENTRY_LDAP_BIND_PASSWORD: {{ sentry_ldap_bind_password }}
+      SENTRY_LDAP_USER_DN: {{ sentry_ldap_user_dn }}
+      SENTRY_LDAP_GROUP_DN: {{ sentry_ldap_group_dn }}
+      SENTRY_LDAP_DEFAULT_SENTRY_ORGANIZATION: {{ sentry_ldap_default_sentry_organization }}
 
     volumes:
       - {{ sentry_home }}/data/sentry:/var/lib/sentry/files

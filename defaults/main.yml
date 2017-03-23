@@ -11,3 +11,11 @@ sentry_admins:
     password: "admin"
 sentry_server_email: 'sentry@localhost'
 sentry_url_prefix: http://sentry.example.com
+
+sentry_ldap_auth: 0
+sentry_ldap_server_uri: "ldap://ldap.com:1389"
+sentry_ldap_bind_dn: "cn=ldap_user,ou=users,dc=ldap"
+sentry_ldap_bind_password: "secret_ldap_bind_password"
+sentry_ldap_user_dn: "ou=users,dc=ldap"
+sentry_ldap_group_dn: "ou=groups,dc=ldap"
+sentry_ldap_default_sentry_organization: 'ldap_organization'

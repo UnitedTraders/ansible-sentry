@@ -34,6 +34,9 @@ from sentry.utils.types import Bool
 import os
 import os.path
 
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType
+
 CONF_ROOT = os.path.dirname(__file__)
 env = os.environ.get
 
@@ -289,3 +292,56 @@ if 'SENTRY_RUNNING_UWSGI' not in os.environ and len(secret_key) < 32:
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
 SENTRY_OPTIONS['system.secret-key'] = secret_key
+
+
+###################
+## LDAP SETTINGS ##
+###################
+if Bool(env('SENTRY_LDAP_AUTH', False)):
+    AUTH_LDAP_SERVER_URI = env('SENTRY_LDAP_SERVER_URI')
+    AUTH_LDAP_BIND_DN = env('SENTRY_LDAP_BIND_DN')
+    AUTH_LDAP_BIND_PASSWORD = env('SENTRY_LDAP_BIND_PASSWORD')
+
+    AUTH_LDAP_USER_SEARCH = LDAPSearch(
+        env('SENTRY_LDAP_USER_DN'),
+        ldap.SCOPE_SUBTREE,
+        '(uid=%(user)s)',
+    )
+
+    AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+        env('SENTRY_LDAP_GROUP_DN'),
+        ldap.SCOPE_SUBTREE,
+        '(objectClass=groupOfUniqueNames)'
+    )
+
+    AUTH_LDAP_GROUP_TYPE = GroupOfUniqueNamesType()
+    AUTH_LDAP_REQUIRE_GROUP = None
+    AUTH_LDAP_DENY_GROUP = None
+
+    AUTH_LDAP_USER_ATTR_MAP = {
+        'name': 'givenName',
+        'email': 'mail',
+        'username': 'uid'
+    }
+
+    AUTH_LDAP_FIND_GROUP_PERMS = False
+    AUTH_LDAP_CACHE_GROUPS = True
+    AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
+
+    AUTH_LDAP_DEFAULT_SENTRY_ORGANIZATION = env('SENTRY_LDAP_DEFAULT_SENTRY_ORGANIZATION')
+    AUTH_LDAP_SENTRY_ORGANIZATION_ROLE_TYPE = 'member'
+    AUTH_LDAP_SENTRY_ORGANIZATION_GLOBAL_ACCESS = True
+
+    AUTHENTICATION_BACKENDS = AUTHENTICATION_BACKENDS + (
+        'sentry_ldap_auth.backend.SentryLdapBackend',
+    )
+
+    LOGGING['overridable'] = ['sentry', 'django_auth_ldap']
+    LOGGING['loggers']['django_auth_ldap'] = {
+            'handlers': ['console']
+    }
+
+    import logging
+    logger = logging.getLogger('django_auth_ldap')
+    logger.addHandler(logging.StreamHandler())
+    logger.setLevel('DEBUG')
