@@ -1,4 +1,4 @@
-FROM sentry:8.17
+FROM sentry:{{ sentry_version }}
 
 # Install dependencies for python-ldap
 RUN apt-get update && apt-get install -y --no-install-recommends \

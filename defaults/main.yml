@@ -1,6 +1,7 @@
 ---
 # defaults file for sentry
 sentry_home: '/opt/sentry'
+sentry_version: '8.20'
 sentry_user: 'sentry'
 sentry_db_user: 'sentry'
 sentry_db_password: 'sentry'

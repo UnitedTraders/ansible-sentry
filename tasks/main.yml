@@ -6,17 +6,23 @@
 - name: create sentry data dir
   file: state=directory path={{ sentry_home }}/data owner={{ sentry_user }} recurse=true
 
+- name: copy systemd unit
+  template: src="sentry.service.j2" dest="/etc/systemd/system/sentry.service"
+  notify: reload systemd units
+
+- meta: flush_handlers
+
 - name: copy sentry build dir
   copy: dest={{ sentry_home }}/build  owner={{ sentry_user }} src=sentry/
+  notify: rebuild sentry
+
+- name: copy sentry dockerfile
+  template: backup=yes  dest="{{ sentry_home }}/build/Dockerfile" owner={{ sentry_user }}  src=Dockerfile.j2
   notify: rebuild sentry
 
 - name: copy docker-compose
   template: backup=yes  dest="{{ sentry_home }}/build/docker-compose.yml" owner={{ sentry_user }}  src=docker-compose.yml.j2
   notify: rebuild sentry
-
-- name: copy systemd unit
-  template: src="sentry.service.j2" dest="/etc/systemd/system/sentry.service"
-  notify: reload systemd units
 
 - name: start the service
   service: name=sentry enabled=yes state=started
