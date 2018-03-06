@@ -345,3 +345,10 @@ if Bool(env('SENTRY_LDAP_AUTH', False)):
     logger = logging.getLogger('django_auth_ldap')
     logger.addHandler(logging.StreamHandler())
     logger.setLevel('DEBUG')
+
+# Sentry statsd exporter config
+SENTRY_METRICS_BACKEND = 'sentry.metrics.statsd.StatsdMetricsBackend'
+SENTRY_METRICS_OPTIONS = {
+    'host': os.environ.get('SENTRY_METRICS_HOST'),
+    'port': os.environ.get('SENTRY_METRICS_PORT')
+}

@@ -29,6 +29,8 @@ services:
       SENTRY_LDAP_USER_DN: {{ sentry_ldap_user_dn }}
       SENTRY_LDAP_GROUP_DN: {{ sentry_ldap_group_dn }}
       SENTRY_LDAP_DEFAULT_SENTRY_ORGANIZATION: {{ sentry_ldap_default_sentry_organization }}
+      SENTRY_METRICS_HOST: prometheusexporter
+      SENTRY_METRICS_PORT: 8125
 
     volumes:
       - {{ sentry_home }}/data/sentry:/var/lib/sentry/files
@@ -85,3 +87,9 @@ services:
       - postgres
       - memcached
       - smtp
+
+  prometheusexporter:
+    image: prom/statsd-exporter:latest
+    command: -statsd.listen-udp=:8125
+    ports:
+      - "127.0.0.1:9102:9102"
