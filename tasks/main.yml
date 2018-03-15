@@ -18,7 +18,9 @@
 
 - name: copy sentry dockerfile
   template: backup=yes  dest="{{ sentry_home }}/build/Dockerfile" owner={{ sentry_user }}  src=Dockerfile.j2
-  notify: rebuild sentry
+  notify:
+    - rebuild sentry
+    - initialise sentry
 
 - name: copy docker-compose
   template: backup=yes  dest="{{ sentry_home }}/build/docker-compose.yml" owner={{ sentry_user }}  src=docker-compose.yml.j2

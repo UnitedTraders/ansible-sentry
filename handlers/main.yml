@@ -4,7 +4,8 @@
 
 - name: rebuild sentry
   command: /usr/bin/docker-compose build chdir={{ sentry_home }}/build
-  notify: initialise sentry
+  notify:
+    - restart sentry
 
 - name: initialise sentry
   command: /usr/bin/docker-compose run --rm web upgrade --noinput chdir={{ sentry_home }}/build
