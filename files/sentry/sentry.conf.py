@@ -352,3 +352,5 @@ SENTRY_METRICS_OPTIONS = {
     'host': os.environ.get('SENTRY_METRICS_HOST'),
     'port': os.environ.get('SENTRY_METRICS_PORT')
 }
+
+SENTRY_DEFAULT_TIME_ZONE = 'Etc/GMT+3'
